@@ -1,110 +1,64 @@
-import { Head, useForm } from '@inertiajs/react';
-import { LoaderCircle } from 'lucide-react';
-import { FormEventHandler } from 'react';
+import { Head } from '@inertiajs/react';
+import { LoginForm } from '@/components/login-form';
 
-import InputError from '@/components/input-error';
-import TextLink from '@/components/text-link';
-import { Button } from '@/components/ui/button';
-import { Checkbox } from '@/components/ui/checkbox';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import AuthLayout from '@/layouts/auth-layout';
+export default function LoginPage() {
+  return (
+    <div className="relative grid min-h-screen grid-cols-1 lg:grid-cols-2">
+      {/* Left Panel: Form */}
+      <div className="relative flex flex-col items-center justify-center p-6 md:p-10 bg-white lg:px-16 overflow-hidden">
+        
+        {/* Top-left SVG */}
+        <div className="absolute top-0 left-0 w-full overflow-hidden leading-[0] -rotate-180 pointer-events-none">
+          <svg
+            className="relative block w-[calc(199%+1.3px)] h-[400px]"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 1200 120"
+            preserveAspectRatio="none"
+          >
+            <path
+              d="M602.45,3.86h0S572.9,116.24,281.94,120H923C632,116.24,602.45,3.86,602.45,3.86Z"
+              className="fill-[#1c1717be]"
+            />
+          </svg>
+        </div>
 
-type LoginForm = {
-    email: string;
-    password: string;
-    remember: boolean;
-};
+        {/* Logo */}
+        <div className="mb-8 flex items-center gap-2 md:justify-start justify-center z-10">
+          <a href="#" className="flex items-center gap-2 font-medium">
+            <img src="images/GWlogo.svg" alt="Logo" />
+          </a>
+        </div>
 
-interface LoginProps {
-    status?: string;
-    canResetPassword: boolean;
-}
+        {/* Login Form */}
+        <div className="w-full max-w-md z-10">
+          <Head title="Log in" />
+          <LoginForm canResetPassword={true} showAlternativeLogin={true} />
+        </div>
+      </div>
 
-export default function Login({ status, canResetPassword }: LoginProps) {
-    const { data, setData, post, processing, errors, reset } = useForm<Required<LoginForm>>({
-        email: '',
-        password: '',
-        remember: false,
-    });
+      {/* Right Panel: Image */}
+      <div className="relative hidden lg:block overflow-hidden">
+        <img
+          src="images/Greatwork2Lobby.png"
+          alt="Login"
+          className="absolute inset-0 h-full w-full object-cover dark:brightness-[0.3] dark:grayscale"
+        />
 
-    const submit: FormEventHandler = (e) => {
-        e.preventDefault();
-        post(route('login'), {
-            onFinish: () => reset('password'),
-        });
-    };
-
-    return (
-        <AuthLayout title="Log in to your account" description="Enter your email and password below to log in">
-            <Head title="Log in" />
-
-            <form className="flex flex-col gap-6" onSubmit={submit}>
-                <div className="grid gap-6">
-                    <div className="grid gap-2">
-                        <Label htmlFor="email">Email address</Label>
-                        <Input
-                            id="email"
-                            type="email"
-                            required
-                            autoFocus
-                            tabIndex={1}
-                            autoComplete="email"
-                            value={data.email}
-                            onChange={(e) => setData('email', e.target.value)}
-                            placeholder="email@example.com"
-                        />
-                        <InputError message={errors.email} />
-                    </div>
-
-                    <div className="grid gap-2">
-                        <div className="flex items-center">
-                            <Label htmlFor="password">Password</Label>
-                            {canResetPassword && (
-                                <TextLink href={route('password.request')} className="ml-auto text-sm" tabIndex={5}>
-                                    Forgot password?
-                                </TextLink>
-                            )}
-                        </div>
-                        <Input
-                            id="password"
-                            type="password"
-                            required
-                            tabIndex={2}
-                            autoComplete="current-password"
-                            value={data.password}
-                            onChange={(e) => setData('password', e.target.value)}
-                            placeholder="Password"
-                        />
-                        <InputError message={errors.password} />
-                    </div>
-
-                    <div className="flex items-center space-x-3">
-                        <Checkbox
-                            id="remember"
-                            name="remember"
-                            checked={data.remember}
-                            onClick={() => setData('remember', !data.remember)}
-                            tabIndex={3}
-                        />
-                        <Label htmlFor="remember">Remember me</Label>
-                    </div>
-
-                    <Button type="submit" className="mt-4 w-full bg-red-900" tabIndex={4} disabled={processing}>
-                        {processing && <LoaderCircle className="h-4 w-4 animate-spin" />}
-                        Log in
-                    </Button>
-                </div>
-
-                <div className="text-muted-foreground text-center text-sm">
-                    Don't have an account?{' '}
-                    <TextLink href={route('register')} tabIndex={5}>
-                        Sign up
-                    </TextLink>
-                </div>
-            </form>
-
-            {status && <div className="mb-4 text-center text-sm font-medium text-green-600">{status}</div>}
-        </AuthLayout>
-    );
+        {/* Bottom-right SVG */}
+        <div className="absolute bottom-0 right-0 w-full overflow-hidden leading-[0] pointer-events-none">
+          <svg
+            className="relative block w-[200%] h-[450px]"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 1200 120"
+            preserveAspectRatio="none"
+          >
+            <path
+              d="M602.45,3.86h0S572.9,116.24,281.94,120H923C632,116.24,602.45,3.86,602.45,3.86Z"
+              className="fill-red-900"
+            />
+          </svg>
+        </div>
+      </div>
+    </div>
+  );
 }

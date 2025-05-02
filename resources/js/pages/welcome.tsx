@@ -39,13 +39,13 @@ export default function Welcome() {
                                 <>
                                     <Link
                                         href={route('login')}
-                                        className="inline-block rounded-sm border border-white px-5 py-2 text-sm text-white hover:bg-white hover:text-red-900 transition"
+                                        className="inline-block rounded-sm border border-white font-semibold px-5 py-2 text-sm text-white hover:bg-white hover:text-red-900 transition"
                                     >
                                         Log in
                                     </Link>
                                     <Link
                                         href={route('register')}
-                                        className="inline-block rounded-sm border bg-red-900 border-white px-5 py-2 text-sm text-white hover:border-red-800"
+                                        className="inline-block rounded-sm border bg-red-900 px-5 py-2 text-sm text-white font-semibold hover:bg-transparent hover:text-red-900 transition"
                                     >
                                         Register
                                     </Link>
