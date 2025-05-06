@@ -21,6 +21,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'role',
     ];
 
     /**
@@ -44,5 +45,17 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    public function reservations(){
+        return $this->hasMany(Reservation::class, 'user_id');
+    }
+
+    public function tickets(){
+        return $this->hasMany(Ticket::class,'user_id');
+    }
+
+    public function logs(){
+        return $this->hasMany(Log::class,'user_id');
     }
 }

@@ -51,7 +51,7 @@ const DailyOp: DailyOperation[] = [
 const Accounting: AccountingItems[] = [
     {
         title: 'Payment',
-        href: '/Payment',
+        href: '/payment',
         icon: Wallet,
     },
 ];
