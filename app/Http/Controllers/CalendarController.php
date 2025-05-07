@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Calendar;
 use App\Http\Requests\StoreCalendarRequest;
 use App\Http\Requests\UpdateCalendarRequest;
+use Illuminate\Support\Facades\Auth;
 
 class CalendarController extends Controller
 {
@@ -13,7 +14,9 @@ class CalendarController extends Controller
      */
     public function index()
     {
-        return inertia('Admin/Calendar/Index');
+        $role = Auth::user()->role;
+        // dd($role);
+        return inertia('Admin/Calendar/Index',['role' => $role]);
     }
 
     /**

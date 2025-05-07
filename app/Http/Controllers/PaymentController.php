@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Payment;
 use App\Http\Requests\StorePaymentRequest;
 use App\Http\Requests\UpdatePaymentRequest;
+use Illuminate\Support\Facades\Auth;
 
 class PaymentController extends Controller
 {
@@ -13,7 +14,8 @@ class PaymentController extends Controller
      */
     public function index()
     {
-        return inertia('Admin/Payment/Index');
+        $role = Auth::user()->role;
+        return inertia('Admin/Payment/Index', ['role' => $role]);
     }
 
     /**

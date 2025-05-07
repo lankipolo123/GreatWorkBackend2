@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Log;
 use App\Http\Requests\StoreLogRequest;
 use App\Http\Requests\UpdateLogRequest;
+use Illuminate\Support\Facades\Auth;
 
 class LogController extends Controller
 {
@@ -13,7 +14,8 @@ class LogController extends Controller
      */
     public function index()
     {
-        return inertia('Admin/Logs/Index');
+        $role = Auth::user()->role; 
+        return inertia('Admin/Logs/Index', ['role'=>$role]);
     }
 
     /**

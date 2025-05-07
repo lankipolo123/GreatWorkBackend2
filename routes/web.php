@@ -22,6 +22,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // Route::get('dashboard', function () {
     //     return Inertia::render('Customer/dashboard');
     // })->name('dashboard-customer');
+
     Route::get('dashboard', function () {
         $user = Auth::user();
     
@@ -31,9 +32,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
     
         switch ($user->role) {
             case 'admin':
-                return Inertia::render('Admin/dashboard');
+                // dd('ADMIN');
+                return Inertia::render('Admin/dashboard', [
+                'role' => $user->role,]);
             case 'user':
-                return Inertia::render('Customer/dashboard');
+                return Inertia::render('Customer/dashboard' , [
+                    'role' => $user->role,]);
             // Add more roles if needed
             default:
                 abort(403, 'Unauthorized role');
@@ -60,29 +64,33 @@ Route::middleware(['auth', 'verified'])->group(function () {
     //     return Inertia::render('Admin/Payment/Index');
     // })->name('payment.index');
     
-    Route::get('/reservations', [ReservationController::class, 'index'])->name('reservations.index');
-    Route::resource('reservations', ReservationController::class)->except('index');
-
-    Route::get('/ticket',[TicketController::class, 'index'])->name('ticket.index');
-    Route::resource('ticket', TicketController::class)->except('index');
     
+    Route::middleware('role:admin')->group(function () {
+        Route::get('/reservations', [ReservationController::class, 'index'])->name('reservations.index');
+        Route::resource('reservations', ReservationController::class)->except('index');
 
-    Route::get('/calendar',[CalendarController::class, 'index'])->name('calendar.index'); 
-    Route::resource('calendar', CalendarController::class)->except('index');
-    
+        Route::get('/ticket',[TicketController::class, 'index'])->name('ticket.index');
+        Route::resource('ticket', TicketController::class)->except('index');
+        
 
-    Route::get('/logs',[LogController::class, 'index'])->name('log.index');
-    Route::resource('logs', LogController::class)->except('index');
-    
+        Route::get('/calendar',[CalendarController::class, 'index'])->name('calendar.index'); 
+        Route::resource('calendar', CalendarController::class)->except('index');
+        
 
-    Route::get('/payment', [PaymentController::class, 'index'])->name('payment.index'); 
-    Route::resource('payment', PaymentController::class)->except('index'); 
-       
-    Route::get('/user', function(){
-        return Inertia::render('Admin/User/Index');
-    })->name('user.index');
+        Route::get('/logs',[LogController::class, 'index'])->name('log.index');
+        Route::resource('logs', LogController::class)->except('index');
+        
 
-    
+        Route::get('/payment', [PaymentController::class, 'index'])->name('payment.index'); 
+        Route::resource('payment', PaymentController::class)->except('index'); 
+        
+        Route::get('/user', function(){
+            $role = Auth::user()->role;  
+            return Inertia::render('Admin/User/Index',['role' => $role]);
+        })->name('user.index');
+
+        
+    });
 
     
 });
@@ -92,6 +100,7 @@ Route::prefix('settings')->group(function () {
     Route::get('password', fn () => Inertia::render('Settings/Password'));
     Route::get('appearance', fn () => Inertia::render('Settings/Appearance'));
 });
+
 
 require __DIR__.'/settings.php';
 require __DIR__.'/auth.php';

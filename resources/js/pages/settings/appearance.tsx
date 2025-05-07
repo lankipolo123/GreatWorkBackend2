@@ -14,9 +14,10 @@ const breadcrumbs: BreadcrumbItem[] = [
     },
 ];
 
-export default function Appearance() {
+export default function Appearance({role}: { role: string }) {
+    console.log(role);
     return (
-        <AppLayout breadcrumbs={breadcrumbs}>
+        <AppLayout breadcrumbs={breadcrumbs} role={role} >
             <Head title="Appearance settings" />
 
             <SettingsLayout>

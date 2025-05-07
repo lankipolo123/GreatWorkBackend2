@@ -9,4 +9,5 @@ class Calendar extends Model
 {
     /** @use HasFactory<\Database\Factories\CalendarFactory> */
     use HasFactory;
+
 }

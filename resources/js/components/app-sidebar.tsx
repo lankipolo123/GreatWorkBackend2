@@ -17,36 +17,6 @@ const Overview: NavItem[] = [
     },
 ];
 
-const DailyOp: DailyOperation[] = [
-    {
-        title: "Reservations",
-        href: "/reservations",
-        icon: LucideCalendarDays,
-      },
-      {
-        title: "Calendar",
-        href: "/calendar",
-        icon: LucideCalendar,
-
-      },
-      {
-        title: "Ticket",
-        href: "/ticket",
-        icon: LucideTicket,
-
-      },
-      {
-        title: "User",
-        href: "/user",
-        icon: LucideUser,
-
-      },
-      {
-        title: "Log",
-        href: "/logs",
-        icon: LucideBriefcase,
-      },
-];
 
 const Accounting: AccountingItems[] = [
     {
@@ -64,27 +34,82 @@ const footerNavItems: NavItem[] = [
     },
 ];
 
-export function AppSidebar() {
+interface AppSidebarProps {
+    role?: string; // Add the role prop
+}
+
+export function AppSidebar({ role }: AppSidebarProps) {
+    // Shared items for all roles
+    const baseDailyOp: DailyOperation[] = [
+        {
+            title: "Wala pa",
+            href: "/wala",
+            icon: LucideUser,
+        },
+
+        {
+            title: "Calendar",
+            href: "/calenda",
+            icon: LucideCalendar,
+        }
+       
+    ];
+
+    // Admin-only items
+    const adminOnlyItems: DailyOperation[] = [
+        {
+            title: "User",
+            href: "/user",
+            icon: LucideUser,
+        },
+        {
+            title: "Log",
+            href: "/logs",
+            icon: LucideBriefcase,
+        },
+        {
+            title: "Reservations",
+            href: "/reservations",
+            icon: LucideCalendarDays,
+        },
+        {
+            title: "Calendar",
+            href: "/calendar",
+            icon: LucideCalendar,
+        },
+        {
+            title: "Ticket",
+            href: "/ticket",
+            icon: LucideTicket,
+        },
+        
+    ];
+
+    // Merge base with admin-only if role is admin
+    const DailyOp = role === 'admin'
+        ? [...adminOnlyItems,]
+        : baseDailyOp;
+
     return (
         <Sidebar collapsible="icon" variant="sidebar">
             <SidebarHeader className=" border-b  bg-white">
-                <SidebarMenu >
+                <SidebarMenu>
                     <SidebarMenuItem className="bg-white">
-                        <SidebarMenuButton size="lg" asChild >
+                        <SidebarMenuButton size="lg" asChild>
                             <Link href="/dashboard" prefetch>
-                                <AppLogo2/>
+                                <AppLogo2 />
                             </Link>
-                        </SidebarMenuButton >
+                        </SidebarMenuButton>
                     </SidebarMenuItem>
-                    {/**must be add here**/}
                 </SidebarMenu>
             </SidebarHeader>
 
             <SidebarContent className='bg-white'>
                 <NavHead items={Overview} />
                 <Navmain items={DailyOp} />
-                <NavAccount items={Accounting} />
+                {role === 'admin' && <NavAccount items={Accounting} />}
             </SidebarContent>
+            
             <SidebarFooter className='bg-white'>
                 <NavFooter items={footerNavItems} className="mt-auto" />
                 <NavUser />

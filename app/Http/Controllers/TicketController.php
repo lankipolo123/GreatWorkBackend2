@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Ticket;
 use App\Http\Requests\StoreTicketRequest;
 use App\Http\Requests\UpdateTicketRequest;
-
+use Illuminate\Support\Facades\Auth;
 class TicketController extends Controller
 {
     /**
@@ -13,7 +13,8 @@ class TicketController extends Controller
      */
     public function index()
     {
-        return inertia('Admin/Ticket/Index');
+        $role = Auth::user()->role;
+        return inertia('Admin/Ticket/Index', ['role' => $role]);
     }
 
     /**

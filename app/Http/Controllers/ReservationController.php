@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Reservation;
 use App\Http\Requests\StoreReservationRequest;
 use App\Http\Requests\UpdateReservationRequest;
+use Illuminate\Support\Facades\Auth;
 
 class ReservationController extends Controller
 {
@@ -13,7 +14,9 @@ class ReservationController extends Controller
      */
     public function index()
     {
-        return inertia('Admin/Reservations/Index');
+        
+        $role = Auth::user()->role;
+        return inertia('Admin/Reservations/Index', ['role' => $role]);
     }
 
     /**
